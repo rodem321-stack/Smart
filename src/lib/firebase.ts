@@ -17,20 +17,20 @@ import { BoardPost, FirebaseWebConfig } from '../types';
 
 const CONFIG_STORAGE_KEY = 'smart_recycling_firebase_web_config';
 
-// Default / standard sample firebase web config structure
+// Default firebase web config provided by user
 export const defaultFirebaseConfig: FirebaseWebConfig = {
-  apiKey: '',
-  authDomain: '',
-  projectId: '',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: '',
+  apiKey: "AIzaSyBKvlEEr76xTwoGcsCMjcWHGCcPRb6bddc",
+  authDomain: "smart-aa748.firebaseapp.com",
+  projectId: "smart-aa748",
+  storageBucket: "smart-aa748.firebasestorage.app",
+  messagingSenderId: "273081950031",
+  appId: "1:273081950031:web:368daf10220bea1aec6f3a",
 };
 
 let appInstance: FirebaseApp | null = null;
 let dbInstance: Firestore | null = null;
 
-export function getStoredFirebaseConfig(): FirebaseWebConfig | null {
+export function getStoredFirebaseConfig(): FirebaseWebConfig {
   try {
     const raw = localStorage.getItem(CONFIG_STORAGE_KEY);
     if (raw) {
@@ -42,7 +42,7 @@ export function getStoredFirebaseConfig(): FirebaseWebConfig | null {
   } catch (e) {
     console.warn('Failed to parse saved firebase config', e);
   }
-  return null;
+  return defaultFirebaseConfig;
 }
 
 export function saveFirebaseConfig(config: FirebaseWebConfig): boolean {
