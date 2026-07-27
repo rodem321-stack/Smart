@@ -24,7 +24,7 @@ export const defaultFirebaseConfig: FirebaseWebConfig = {
   projectId: "smart-aa748",
   storageBucket: "smart-aa748.firebasestorage.app",
   messagingSenderId: "273081950031",
-  appId: "1:273081950031:web:368daf10220bea1aec6f3a",
+  appId: "1:273081950031:web:a8ac3d7501379395ec6f3a",
 };
 
 let appInstance: FirebaseApp | null = null;

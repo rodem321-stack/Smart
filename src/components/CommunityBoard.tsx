@@ -56,6 +56,7 @@ export const CommunityBoard: React.FC<CommunityBoardProps> = ({
   const [attachedSummary, setAttachedSummary] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccessMsg, setSubmitSuccessMsg] = useState<string | null>(null);
+  const [firestoreError, setFirestoreError] = useState<string | null>(null);
 
   const connected = isFirebaseConnected();
 
@@ -74,6 +75,7 @@ export const CommunityBoard: React.FC<CommunityBoardProps> = ({
   // Subscribe to Firestore posts ordered by createdAt desc (최신순)
   useEffect(() => {
     setIsLoading(true);
+    setFirestoreError(null);
     const unsubscribe = subscribeToFirestorePosts(
       (updatedPosts) => {
         setPosts(updatedPosts);
@@ -81,6 +83,7 @@ export const CommunityBoard: React.FC<CommunityBoardProps> = ({
       },
       (err) => {
         console.warn('Subscription error', err);
+        setFirestoreError(err?.message || 'Firestore 접근 연결 오류');
         setIsLoading(false);
       }
     );
@@ -185,7 +188,7 @@ export const CommunityBoard: React.FC<CommunityBoardProps> = ({
               <h3 className="text-sm font-bold">Firebase Firestore 사용자 피드백 연동</h3>
               {connected ? (
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  <CheckCircle2 className="h-3 w-3" /> 연동됨 (smart-aa748)
+                  <CheckCircle2 className="h-3 w-3" /> 연동 설정됨 (smart-aa748)
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
@@ -203,9 +206,26 @@ export const CommunityBoard: React.FC<CommunityBoardProps> = ({
           onClick={onOpenFirebaseModal}
           className="px-4 py-2 rounded-xl text-xs font-bold bg-orange-500 hover:bg-orange-600 active:scale-95 text-white transition-all shadow-md shrink-0"
         >
-          {connected ? '⚙️ Firebase Config 정보' : '🔥 Firebase WebConfig 붙여넣기'}
+          {connected ? '⚙️ Firebase Config 수정' : '🔥 Firebase WebConfig 붙여넣기'}
         </button>
       </div>
+
+      {/* Firestore Diagnostics Notice if permissions or missing db error */}
+      {firestoreError && (
+        <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 space-y-2 text-xs">
+          <div className="flex items-center gap-2 font-bold text-amber-900 dark:text-amber-200">
+            <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
+            <span>Firestore 데이터베이스 연결 확인 필요 ({firestoreError})</span>
+          </div>
+          <p className="text-amber-800 dark:text-amber-300">
+            Firebase 프로젝트가 생성되어 있더라도 아래 2가지 설정이 필요할 수 있습니다:
+          </p>
+          <ol className="list-decimal pl-5 space-y-1 text-amber-900 dark:text-amber-200 font-medium">
+            <li><strong>Firestore 데이터베이스 생성:</strong> Firebase 콘솔 &gt; Build &gt; Firestore Database 메뉴에서 데이터베이스 만들기 클릭</li>
+            <li><strong>보안 규칙(Security Rules) 허용:</strong> Rules 탭에서 읽기/쓰기 권한(allow read, write: if true;) 설정</li>
+          </ol>
+        </div>
+      )}
 
       {/* Feedback Submission Writer Form */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xs border border-slate-200/80 dark:border-slate-800">
