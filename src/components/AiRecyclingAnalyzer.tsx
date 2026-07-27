@@ -74,7 +74,7 @@ export const AiRecyclingAnalyzer: React.FC<AiRecyclingAnalyzerProps> = ({ onShar
     setErrorMsg(null);
 
     try {
-      const response = await fetch('/api/generate.js', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
