@@ -1,0 +1,6 @@
+{
+  "name": "스마트 분리수거 도우미",
+  "description": "AI 기반 쓰레기 재질 분석, 올바른 분리수거 가이드 제공 및 Firebase 실시간 커뮤니티 게시판",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
