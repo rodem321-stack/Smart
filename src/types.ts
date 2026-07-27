@@ -23,14 +23,23 @@ export interface RecyclingAnalysisResult {
   ecoImpact?: string;
 }
 
-export type PostCategory = '질문하기' | '나만의 분리수거 팁' | '업사이클링 공유' | '자유수다';
+export type FeedbackCategory =
+  | '서비스 개선 제안'
+  | '분리수거 정보 오류 제보'
+  | '새로운 품목 추가 요청'
+  | '칭찬 및 응원'
+  | '기타 의견';
+
+export type FeedbackStatus = '검토 대기' | '검토 중' | '반영 완료';
 
 export interface BoardPost {
   id: string;
   title: string;
   content: string;
   author: string;
-  category: PostCategory;
+  category: FeedbackCategory | string;
+  rating?: number; // 1 ~ 5 별점
+  status?: FeedbackStatus;
   createdAt: any; // Firestore Timestamp or ISO string
   recyclingSummary?: string;
   likes: number;

@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <MessageSquareText className="h-3.5 w-3.5" />
-            커뮤니티 게시판
+            사용자 의견 게시판
           </button>
           <button
             onClick={() => setActiveTab('guide')}
